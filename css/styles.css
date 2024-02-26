@@ -1,0 +1,27 @@
+/* Styles for the button */
+.add-request-button {
+    background-color: #0074D9;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Styles for the popup form */
+.popup-form {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f9f9f9;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Styles for the error messages */
+#errorMessage {
+    color: red;
+    font-weight: bold;
+}

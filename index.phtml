@@ -1,0 +1,83 @@
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+include_once "./controller/InventoryController.php";
+
+// Instantiate the class
+$inventoryController = new InventoryController();
+
+// Load the list of items needed for the popup form
+$items = $inventoryController->getInventory();
+
+// Release the DB connection after page execution
+$inventoryController->closeDBConnection();
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Form</title>
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+
+    <!-- jQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <!-- DataTables JavaScript -->
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <script src="js/requests.js"></script>
+
+    <!-- Button to open the popup form -->
+    <button class="add-request-button" onclick="openPopup()">Add Request</button>
+    <br/>
+    <br/>
+    <table id="requestsTable" class="display">
+        <thead>
+        <tr>
+            <th>User</th>
+            <th>Requested Items</th>
+            <th>Type</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+            <!-- Table body will be filled dynamically -->
+        </tbody>
+    </table>
+
+    <!-- Popup form -->
+    <div class="popup-form" id="requestForm">
+        <h2>Add Request</h2>
+        <div id="errorMessage"></div>
+        <form id="request">
+            <label for="userName">User:</label>
+            <input type="text" id="userName" name="user_name" placeholder="Enter your name" required>
+            <br/>
+            <br/>
+            <div id="itemRows">
+                <div id="itemRow">
+                    <label for="requestedItem">Requested Item:</label>
+                    <select id="requestedItem" name="requested_items[]">
+                        <option value=""></option>
+                        <?php foreach ($items as $item) { ?>
+                            <option value="<?php echo $item['Id']; ?>"><?php echo $item['Item']; ?></option>
+                        <?php } ?>
+                    </select>
+                    <button type="button" id="addItem" onclick="addItemRow()">Add more</button>
+                    <br/>
+                    <br/>
+                </div>
+            </div>
+            <button type="button" id="cancelRequest" onclick="closePopup()">Cancel</button>
+            <button type="button" id="submitRequest" onclick="submitForm()">Submit</input>
+        </form>
+    </div>
+</body>
+</html>
